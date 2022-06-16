@@ -8,7 +8,7 @@ import Home from './pages/Home';
 
 // link to the GraphQL server
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3001/graphql'
+  uri: '/graphql'
 });
 
 // instantiate the Apollo Client instance and create connection to the API endpoint
