@@ -8,25 +8,24 @@ const ThoughtForm = () => {
   const [characterCount, setCharacterCount] = useState(0);
   const [addThought, { error }] = useMutation(ADD_THOUGHT, {
     update(cache, { data: { addThought } }) {
-  
-        // could potentially not exist yet, so wrap in a try/catch
-      try {
         // update me array's cache
         const { me } = cache.readQuery({ query: QUERY_ME });
         cache.writeQuery({
           query: QUERY_ME,
           data: { me: { ...me, thoughts: [...me.thoughts, addThought] } },
         });
-      } catch (e) {
-        console.warn("First thought insertion by user!")
-      }
-  
-      // update thought array's cache
-      const { thoughts } = cache.readQuery({ query: QUERY_THOUGHTS });
-      cache.writeQuery({
-        query: QUERY_THOUGHTS,
-        data: { thoughts: [addThought, ...thoughts] },
-      });
+      
+        // could potentially not exist yet, so wrap in a try/catch
+        try {
+          // update thought array's cache
+          const { thoughts } = cache.readQuery({ query: QUERY_THOUGHTS });
+          cache.writeQuery({
+            query: QUERY_THOUGHTS,
+            data: { thoughts: [addThought, ...thoughts] },
+          });
+        } catch (e) {
+          console.log(e);
+        }
     }
   });
 
